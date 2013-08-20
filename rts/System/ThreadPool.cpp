@@ -203,7 +203,7 @@ void PushTaskGroup(std::shared_ptr<ITaskGroup> taskgroup)
 {
 	waitForLock = true;
 	boost::unique_lock<boost::shared_mutex> lk(taskMutex, boost::defer_lock);
-	while (!lk.try_lock()) {}
+	while (!lk.try_lock()) { LOG_L(L_WARNING, "PushTaskGroup waits for lock"); }
 	taskGroups.emplace_back(taskgroup);
 	waitForLock = false;
 	lk.unlock();
